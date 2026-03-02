@@ -87,6 +87,15 @@ Singleton {
     }
 
     function getAppCategoryIcon(name: string, fallback: string): string {
+
+        // edit: workspace-icons
+        // Use regex matching to look for user defined icons. 
+        for (const iconConfig of Config.bar.workspaces.workspaceIcons) {
+            const re = new RegExp(iconConfig.name, "i"); 
+            if (re.test(name)) {
+                return iconConfig.icon;
+            }
+        }
         const categories = DesktopEntries.heuristicLookup(name)?.categories;
 
         if (categories)

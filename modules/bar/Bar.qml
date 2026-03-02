@@ -123,6 +123,13 @@ ColumnLayout {
                     sourceComponent: OsIcon {}
                 }
             }
+            // edit: notifications-in-bar
+            DelegateChoice {
+                roleValue: "notifications"
+                delegate: WrappedLoader {
+                    sourceComponent: NotificationsIcon {}
+                }
+            }
             DelegateChoice {
                 roleValue: "workspaces"
                 delegate: WrappedLoader {
@@ -158,14 +165,15 @@ ColumnLayout {
                     sourceComponent: StatusIcons {}
                 }
             }
-            DelegateChoice {
-                roleValue: "power"
-                delegate: WrappedLoader {
-                    sourceComponent: Power {
-                        visibilities: root.visibilities
-                    }
-                }
-            }
+            // edit: custom
+            // DelegateChoice {
+            //     roleValue: "power"
+            //     delegate: WrappedLoader {
+            //         sourceComponent: Power {
+            //             visibilities: root.visibilities
+            //         }
+            //     }
+            // }
         }
     }
 

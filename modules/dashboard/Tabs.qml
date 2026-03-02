@@ -50,6 +50,12 @@ Item {
             text: qsTr("Weather")
         }
 
+        // edit: dashboard-shortcuts
+        Tab {
+            iconName: "deployed_code"
+            text: qsTr("Shortcuts")
+        }
+
         // Tab {
         //     iconName: "workspaces"
         //     text: qsTr("Workspaces")

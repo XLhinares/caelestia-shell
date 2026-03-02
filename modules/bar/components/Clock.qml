@@ -12,16 +12,29 @@ Column {
 
     spacing: Appearance.spacing.small
 
-    Loader {
+    // edit: custom-clock
+    StyledText {
+        id: text_date
         anchors.horizontalCenter: parent.horizontalCenter
+        horizontalAlignment: StyledText.AlignHCenter
+        text: Time.format("MM\ndd")
+        font.pointSize: Appearance.font.size.smaller
+        font.family: Appearance.font.family.mono
+        color: root.colour
+    }
 
-        active: Config.bar.clock.showIcon
-        visible: active
-
-        sourceComponent: MaterialIcon {
-            text: "calendar_month"
-            color: root.colour
+    StyledText {
+        id: text_day
+        anchors.horizontalCenter: parent.horizontalCenter
+        horizontalAlignment: StyledText.AlignHCenter
+        text: {
+            var day = new Date().getDay();
+            var days = ["日", "一", "二", "三", "四", "五", "六"];
+            return days[day];
         }
+        font.pointSize: Appearance.font.size.smaller
+        font.family: Appearance.font.family.mono
+        color: root.colour
     }
 
     StyledText {

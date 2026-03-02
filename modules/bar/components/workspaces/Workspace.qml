@@ -94,7 +94,8 @@ ColumnLayout {
                     required property var modelData
 
                     grade: 0
-                    text: Icons.getAppCategoryIcon(modelData.lastIpcObject.class, "terminal")
+                    // edit: workspace-icons
+                    text: Icons.getAppCategoryIcon(modelData.lastIpcObject.class, "view_cozy")
                     color: Colours.palette.m3onSurfaceVariant
                 }
             }

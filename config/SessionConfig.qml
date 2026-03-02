@@ -2,7 +2,8 @@ import Quickshell.Io
 
 JsonObject {
     property bool enabled: true
-    property int dragThreshold: 30
+    // edit: dashboard-shortcuts
+    property int dragThreshold: 0
     property bool vimKeybinds: false
     property Icons icons: Icons {}
     property Commands commands: Commands {}

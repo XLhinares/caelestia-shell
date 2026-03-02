@@ -8,6 +8,8 @@ JsonObject {
     property int dragThreshold: 50
     property Sizes sizes: Sizes {}
     property Performance performance: Performance {}
+    // edit: dashboard-shortcuts
+    property list<var> shortcuts: []
 
     component Performance: JsonObject {
         property bool showBattery: true

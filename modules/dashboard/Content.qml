@@ -111,6 +111,12 @@ Item {
                     index: 3
                     sourceComponent: Weather {}
                 }
+
+                // edit: dashboard-shortcuts
+                Pane {
+                    index: 4
+                    sourceComponent: Shortcuts {}
+                }
             }
 
             Behavior on contentX {

@@ -91,6 +91,12 @@ CustomMouseArea {
         if (!visibilities.bar && Config.bar.showOnHover && x < bar.implicitWidth)
             bar.isHovered = true;
 
+        // edit: dashboard-shortcuts
+        // NEW: Show notifications on right-edge drag (outside session area)  
+        if (pressed && dragStart.x > bar.implicitWidth + panels.session.x + panels.session.width && dragX < -Config.session.dragThreshold) {  
+            visibilities.sidebar = true;  
+        }  
+        
         // Show/hide bar on drag
         if (pressed && dragStart.x < bar.implicitWidth) {
             if (dragX > Config.bar.dragThreshold)

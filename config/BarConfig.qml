@@ -19,6 +19,11 @@ JsonObject {
             id: "logo",
             enabled: true
         },
+        // edit: notifications-in-bar
+        {
+            id: "notifications",
+            enabled: true
+        },
         {
             id: "workspaces",
             enabled: true
@@ -78,6 +83,8 @@ JsonObject {
         property string activeLabel: "󰮯"
         property string capitalisation: "preserve" // upper, lower, or preserve - relevant only if label is empty
         property list<var> specialWorkspaceIcons: []
+        // edit: workspace-icons
+        property list<var> workspaceIcons: []
     }
 
     component ActiveWindow: JsonObject {
