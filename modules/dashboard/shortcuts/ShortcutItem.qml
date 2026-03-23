@@ -51,8 +51,36 @@ ColumnLayout {
                 } else {
                     return ""; // Abort if no command is given.
                 }
-                print(">>> [" + button.label + "] cmd: " + cmd);
+                // print(">>> [" + button.label + "] cmd: " + cmd);
                 return typeof cmd === 'string' ? cmd.split(/\s+/) : cmd; 
+            }
+            stderr: SplitParser {
+                onRead: data => {
+                    if (!data) return
+                    if (button.showCommandOutputNotif == undefined) return;
+                    if (!button.showCommandOutputNotif) return;
+                    // print(">>> [" + button.label + "] isEnabled: " + enabledChecker.isEnabled)
+                    print(">>> [" + button.label + "] Output:    " + data)
+                    Quickshell.execDetached([
+                        "notify-send",
+                        "[" + button.label + "]",
+                        data,
+                    ]);
+                }
+            }
+            stdout: SplitParser {
+                onRead: data => {
+                    if (!data) return
+                    if (button.showCommandOutputNotif == undefined) return;
+                    if (!button.showCommandOutputNotif) return;
+                    // print(">>> [" + button.label + "] isEnabled: " + enabledChecker.isEnabled)
+                    print(">>> [" + button.label + "] Output:    " + data)
+                    Quickshell.execDetached([
+                        "notify-send",
+                        "[" + button.label + "]",
+                        data,
+                    ]);
+                }
             }
             onExited: (code) => rerunEnabledCheck();
         }
