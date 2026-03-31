@@ -49,6 +49,12 @@ Item {
                 iconName: "cloud",
                 text: qsTr("Weather"),
                 enabled: Config.dashboard.showWeather
+            },
+            {
+                component: shortcutComponent,
+                iconName: "deployed_code",
+                text: qsTr("Shortcuts"),
+                enabled: Config.dashboard.showShortcuts
             }
         ];
         return allTabs.filter(tab => tab.enabled);
@@ -177,12 +183,6 @@ Item {
                 MediaWrapper {
                     visibilities: root.visibilities
                 }
-
-                // edit: dashboard-shortcuts
-                Pane {
-                    index: 4
-                    sourceComponent: Shortcuts {}
-                }
             }
 
             Component {
@@ -195,6 +195,12 @@ Item {
                 id: weatherComponent
 
                 WeatherTab {}
+            }
+
+            Component {
+                id: shortcutComponent
+
+                Shortcuts {}
             }
 
             Behavior on contentX {
