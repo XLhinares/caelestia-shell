@@ -16,6 +16,7 @@ ColumnLayout {
     required property ShellScreen screen
     required property DrawerVisibilities visibilities
     required property BarPopouts.Wrapper popouts
+    required property bool fullscreen
     readonly property int vPadding: Appearance.padding.large
 
     function closeTray(): void {
@@ -135,6 +136,7 @@ ColumnLayout {
                 delegate: WrappedLoader {
                     sourceComponent: Workspaces {
                         screen: root.screen
+                        fullscreen: root.fullscreen
                     }
                 }
             }
@@ -142,6 +144,7 @@ ColumnLayout {
                 roleValue: "activeWindow"
                 delegate: WrappedLoader {
                     Layout.fillWidth: true
+                    visible: !root.fullscreen
                     sourceComponent: ActiveWindow {
                         bar: root
                         monitor: Brightness.getMonitorForScreen(root.screen)
@@ -151,18 +154,21 @@ ColumnLayout {
             DelegateChoice {
                 roleValue: "tray"
                 delegate: WrappedLoader {
+                    visible: !root.fullscreen
                     sourceComponent: Tray {}
                 }
             }
             DelegateChoice {
                 roleValue: "clock"
                 delegate: WrappedLoader {
+                    visible: !root.fullscreen
                     sourceComponent: Clock {}
                 }
             }
             DelegateChoice {
                 roleValue: "statusIcons"
                 delegate: WrappedLoader {
+                    visible: !root.fullscreen
                     sourceComponent: StatusIcons {}
                 }
             }
@@ -179,7 +185,7 @@ ColumnLayout {
     }
 
     component WrappedLoader: Loader {
-        required property bool enabled
+        required enabled
         required property string id
         required property int index
 
