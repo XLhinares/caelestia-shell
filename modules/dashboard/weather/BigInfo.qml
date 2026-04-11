@@ -7,12 +7,12 @@ import qs.config
 RowLayout {
     id: bigInfo
 
+    property int visibleHourlyForecastItemsCount: 3
+
     spacing: Appearance.spacing.small
     implicitHeight: hourlyForecast.implicitHeight
-
     Layout.fillWidth: true
 
-    // Main column
     ColumnLayout {
         spacing: Appearance.spacing.small
         Layout.fillWidth: true
@@ -65,6 +65,13 @@ RowLayout {
             id: detailCardRow
 
             Layout.fillWidth: true
+            // Match the size of one `hourlyForecastItem`.
+            Layout.preferredHeight: {
+                var totalHeight = bigInfo.implicitHeight;
+                var itemCount = bigInfo.visibleHourlyForecastItemsCount;
+                var totalSpacing = (itemCount - 1) * Appearance.spacing.small;
+                return (totalHeight - totalSpacing) / itemCount;
+            }
             spacing: Appearance.spacing.smaller
 
             DetailCard {
@@ -92,6 +99,8 @@ RowLayout {
 
     HourlyForecast {
         id: hourlyForecast
+
+        visibleItemsCount: bigInfo.visibleHourlyForecastItemsCount
     }
 
     component DetailCard: StyledRect {
@@ -103,7 +112,7 @@ RowLayout {
         property color colour
 
         Layout.fillWidth: true
-        Layout.preferredHeight: 60
+        Layout.preferredHeight: parent.height
         radius: Appearance.rounding.small
         color: Colours.tPalette.m3surfaceContainer
 

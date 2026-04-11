@@ -17,6 +17,7 @@ ColumnLayout {
 
     RowLayout {
         id: dailyForecast
+
         Layout.fillWidth: true
         spacing: Appearance.spacing.smaller
 
