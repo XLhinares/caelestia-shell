@@ -1,10 +1,6 @@
 import QtQuick
 import QtQuick.Layouts
-import Quickshell
-import Quickshell.Io
-import qs.components
 import qs.config
-import qs.services
 
 GridLayout {
     id: root
@@ -35,7 +31,5 @@ GridLayout {
             Layout.fillWidth: false
             Layout.alignment: Qt.AlignTop
         }
-
     }
-
 }

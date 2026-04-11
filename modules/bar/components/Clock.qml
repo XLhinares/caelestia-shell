@@ -23,29 +23,29 @@ StyledRect {
         anchors.centerIn: parent
         spacing: Appearance.spacing.small
 
-    // edit: custom-clock
-    StyledText {
-        id: text_date
-        anchors.horizontalCenter: parent.horizontalCenter
-        horizontalAlignment: StyledText.AlignHCenter
-        text: Time.format("MM\ndd")
-        font.pointSize: Appearance.font.size.smaller
-        font.family: Appearance.font.family.mono
-        color: root.colour
-    }
+        // edit: custom-clock
+        StyledText {
+            id: text_date
 
-    StyledText {
-        id: text_day
-        anchors.horizontalCenter: parent.horizontalCenter
-        horizontalAlignment: StyledText.AlignHCenter
-        text: {
-            var day = new Date().getDay();
-            var days = ["日", "一", "二", "三", "四", "五", "六"];
-            return days[day];
-    color: Qt.alpha(Colours.tPalette.m3surfaceContainer, Config.bar.clock.background ? Colours.tPalette.m3surfaceContainer.a : 0)
-    radius: Appearance.rounding.full
+            anchors.horizontalCenter: parent.horizontalCenter
+            horizontalAlignment: StyledText.AlignHCenter
+            text: Time.format("MM\ndd")
+            font.pointSize: Appearance.font.size.smaller
+            font.family: Appearance.font.family.mono
+            color: root.colour
         }
-    }
+
+        StyledText {
+            id: text_day
+
+            anchors.horizontalCenter: parent.horizontalCenter
+            horizontalAlignment: StyledText.AlignHCenter
+            text: {
+                var day = new Date().getDay();
+                var days = ["日", "一", "二", "三", "四", "五", "六"];
+                return days[day];
+            }
+        }
 
         StyledText {
             anchors.horizontalCenter: parent.horizontalCenter

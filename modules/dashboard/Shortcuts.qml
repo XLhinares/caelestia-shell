@@ -1,8 +1,8 @@
 import QtQuick
 import QtQuick.Layouts
 import qs.components
-import qs.config
 import qs.services
+import qs.config
 import "shortcuts"
 
 ColumnLayout {
@@ -13,8 +13,7 @@ ColumnLayout {
     Layout.fillWidth: true
     spacing: Appearance.padding.large
 
-    ShortcutsSection {
-    }
+    ShortcutsSection {}
 
     StyledRect {
         Layout.fillWidth: true
@@ -24,7 +23,5 @@ ColumnLayout {
         color: Colours.tPalette.m3outlineVariant
     }
 
-    PowerSection {
-    }
-
+    PowerSection {}
 }

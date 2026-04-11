@@ -1,9 +1,7 @@
 import QtQuick
 import qs.components
-import qs.components.effects
-import qs.config
 import qs.services
-import qs.utils
+import qs.config
 
 Item {
     id: root
@@ -27,5 +25,4 @@ Item {
         font.weight: Font.Bold
         color: Colours.palette.m3onSurface
     }
-
 }
