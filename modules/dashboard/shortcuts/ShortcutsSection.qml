@@ -14,7 +14,7 @@ GridLayout {
     Layout.fillWidth: true
 
     Repeater {
-        model: Config.dashboard.shortcuts
+        model: GlobalConfig.dashboard.shortcuts
 
         delegate: ShortcutItem {
             required property var modelData
@@ -27,7 +27,7 @@ GridLayout {
             showCommandOutputNotif: modelData.showCommandOutputNotif
             isEnabled: modelData.isEnabled
             // Constrain the button’s width to prevent cell growth
-            Layout.preferredWidth: Config.session.sizes.button
+            Layout.preferredWidth: Tokens.sizes.session.button
             Layout.fillWidth: false
             Layout.alignment: Qt.AlignTop
         }

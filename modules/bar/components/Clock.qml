@@ -30,8 +30,8 @@ StyledRect {
             anchors.horizontalCenter: parent.horizontalCenter
             horizontalAlignment: StyledText.AlignHCenter
             text: Time.format("MM\ndd")
-            font.pointSize: Appearance.font.size.smaller
-            font.family: Appearance.font.family.mono
+            font.pointSize: Tokens.font.size.smaller
+            font.family: Tokens.font.family.mono
             color: root.colour
         }
 

@@ -110,8 +110,8 @@ ColumnLayout {
     spacing: Tokens.spacing.normal
 
     StyledRect {
-        implicitWidth: Config.session.sizes.button
-        implicitHeight: Config.session.sizes.button
+        implicitWidth: Tokens.sizes.session.button
+        implicitHeight: Tokens.sizes.session.button
         radius: Tokens.rounding.large
         color: {
             // print(button.label + " is enabled: " + button.enabledBool);

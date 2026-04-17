@@ -33,12 +33,12 @@ RowLayout {
     }
 
     Item {
-        width: (Config.session.sizes.button - Tokens.padding.normal * .5) * .5
+        width: (Tokens.sizes.session.button - Tokens.padding.normal * .5) * .5
     }
 
     AnimatedImage {
-        width: Config.session.sizes.button
-        height: Config.session.sizes.button
+        width: Tokens.sizes.session.button
+        height: Tokens.sizes.session.button
         sourceSize.width: width
         sourceSize.height: height
 
@@ -49,7 +49,7 @@ RowLayout {
     }
 
     Item {
-        width: (Config.session.sizes.button - Tokens.padding.normal * .5) * .5
+        width: (Tokens.sizes.session.button - Tokens.padding.normal * .5) * .5
     }
 
     SessionButton {
@@ -79,8 +79,8 @@ RowLayout {
         spacing: 8
 
         StyledRect {
-            implicitWidth: Config.session.sizes.button
-            implicitHeight: Config.session.sizes.button
+            implicitWidth: Tokens.sizes.session.button
+            implicitHeight: Tokens.sizes.session.button
             radius: Tokens.rounding.large
             color: button.activeFocus ? Colours.palette.m3secondaryContainer : Colours.tPalette.m3surfaceContainer
 
