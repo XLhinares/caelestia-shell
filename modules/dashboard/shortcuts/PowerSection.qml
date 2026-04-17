@@ -3,18 +3,18 @@ pragma ComponentBehavior: Bound
 import QtQuick
 import QtQuick.Layouts
 import Quickshell
+import Caelestia.Config
 import qs.components
 import qs.services
-import qs.config
 import qs.utils
 
 RowLayout {
     id: root
 
-    Layout.leftMargin: Appearance.padding.large
-    Layout.rightMargin: Appearance.padding.large
+    Layout.leftMargin: Tokens.padding.large
+    Layout.rightMargin: Tokens.padding.large
     Layout.fillWidth: true
-    spacing: Appearance.padding.normal
+    spacing: Tokens.padding.normal
 
     SessionButton {
         id: logout
@@ -33,7 +33,7 @@ RowLayout {
     }
 
     Item {
-        width: (Config.session.sizes.button - Appearance.padding.normal * .5) * .5
+        width: (Config.session.sizes.button - Tokens.padding.normal * .5) * .5
     }
 
     AnimatedImage {
@@ -49,7 +49,7 @@ RowLayout {
     }
 
     Item {
-        width: (Config.session.sizes.button - Appearance.padding.normal * .5) * .5
+        width: (Config.session.sizes.button - Tokens.padding.normal * .5) * .5
     }
 
     SessionButton {
@@ -81,7 +81,7 @@ RowLayout {
         StyledRect {
             implicitWidth: Config.session.sizes.button
             implicitHeight: Config.session.sizes.button
-            radius: Appearance.rounding.large
+            radius: Tokens.rounding.large
             color: button.activeFocus ? Colours.palette.m3secondaryContainer : Colours.tPalette.m3surfaceContainer
 
             StateLayer {
@@ -98,7 +98,7 @@ RowLayout {
 
                 text: button.icon
                 color: button.activeFocus ? Colours.palette.m3onSecondaryContainer : Colours.palette.m3onSurface
-                font.pointSize: Appearance.font.size.extraLarge
+                font.pointSize: Tokens.font.size.extraLarge
                 font.weight: 500
             }
         }

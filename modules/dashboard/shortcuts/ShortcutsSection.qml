@@ -1,16 +1,16 @@
 import QtQuick
 import QtQuick.Layouts
-import qs.config
+import Caelestia.Config
 
 GridLayout {
     id: root
 
     columns: 6
-    columnSpacing: Appearance.spacing.normal
-    rowSpacing: Appearance.spacing.normal
-    Layout.leftMargin: Appearance.padding.large
-    Layout.rightMargin: Appearance.padding.large
-    Layout.topMargin: Appearance.padding.large
+    columnSpacing: Tokens.spacing.normal
+    rowSpacing: Tokens.spacing.normal
+    Layout.leftMargin: Tokens.padding.large
+    Layout.rightMargin: Tokens.padding.large
+    Layout.topMargin: Tokens.padding.large
     Layout.fillWidth: true
 
     Repeater {

@@ -124,13 +124,6 @@ ColumnLayout {
                     sourceComponent: OsIcon {}
                 }
             }
-            // edit: notifications-in-bar
-            DelegateChoice {
-                roleValue: "notifications"
-                delegate: WrappedLoader {
-                    sourceComponent: NotificationsIcon {}
-                }
-            }
             DelegateChoice {
                 roleValue: "workspaces"
                 delegate: WrappedLoader {

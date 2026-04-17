@@ -2,9 +2,9 @@ import QtQuick
 import QtQuick.Layouts
 import Quickshell
 import Quickshell.Io
+import Caelestia.Config
 import qs.components
 import qs.services
-import qs.config
 
 ColumnLayout {
     id: button
@@ -105,14 +105,14 @@ ColumnLayout {
         commandRunner.running = true;
     }
 
-    width: Config.session.sizes.button
+    width: Tokens.sizes.session.button
     implicitWidth: width
-    spacing: Appearance.spacing.normal
+    spacing: Tokens.spacing.normal
 
     StyledRect {
         implicitWidth: Config.session.sizes.button
         implicitHeight: Config.session.sizes.button
-        radius: Appearance.rounding.large
+        radius: Tokens.rounding.large
         color: {
             // print(button.label + " is enabled: " + button.enabledBool);
             return button.enabledBool ? Colours.palette.m3secondaryContainer : Colours.tPalette.m3surfaceContainer;
@@ -131,7 +131,7 @@ ColumnLayout {
 
             text: button.icon
             color: button.activeFocus ? Colours.palette.m3onSecondaryContainer : Colours.palette.m3onSurface
-            font.pointSize: Appearance.font.size.extraLarge
+            font.pointSize: Tokens.font.size.extraLarge
             font.weight: 500
         }
     }
