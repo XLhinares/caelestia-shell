@@ -204,11 +204,8 @@ StyledRect {
                     radius: Tokens.rounding.full
 
                     StateLayer {
-                        function onClicked(): void {
-                            root.toggleExpand(!root.expanded);
-                        }
-
                         color: root.urgency === NotificationUrgency.Critical ? Colours.palette.m3onError : Colours.palette.m3onSurface
+                        onClicked: root.toggleExpand(!root.expanded)
                     }
 
                     RowLayout {
@@ -236,15 +233,13 @@ StyledRect {
 
                             Behavior on rotation {
                                 Anim {
-                                    duration: Tokens.anim.durations.expressiveDefaultSpatial
-                                    easing: Tokens.anim.expressiveDefaultSpatial
+                                    type: Anim.DefaultSpatial
                                 }
                             }
 
                             Behavior on Layout.topMargin {
                                 Anim {
-                                    duration: Tokens.anim.durations.expressiveDefaultSpatial
-                                    easing: Tokens.anim.expressiveDefaultSpatial
+                                    type: Anim.DefaultSpatial
                                 }
                             }
                         }

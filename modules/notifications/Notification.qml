@@ -101,8 +101,7 @@ StyledRect {
 
             Behavior on implicitHeight {
                 Anim {
-                    duration: Tokens.anim.durations.expressiveDefaultSpatial
-                    easing: Tokens.anim.expressiveDefaultSpatial
+                    type: Anim.DefaultSpatial
                 }
             }
 
@@ -285,9 +284,8 @@ StyledRect {
                         target: summary
                         property: "maximumLineCount"
                     }
-                    AnchorAnimation {
-                        duration: Tokens.anim.durations.normal
-                        easing: Tokens.anim.standard
+                    AnchorAnim {
+                        type: AnchorAnim.Standard
                     }
                 }
 
@@ -328,9 +326,8 @@ StyledRect {
                 }
 
                 transitions: Transition {
-                    AnchorAnimation {
-                        duration: Tokens.anim.durations.normal
-                        easing: Tokens.anim.standard
+                    AnchorAnim {
+                        type: AnchorAnim.Standard
                     }
                 }
             }
@@ -359,12 +356,9 @@ StyledRect {
                 implicitHeight: expandIcon.height
 
                 StateLayer {
-                    function onClicked() {
-                        root.expanded = !root.expanded;
-                    }
-
                     radius: Tokens.rounding.full
                     color: root.modelData.urgency === NotificationUrgency.Critical ? Colours.palette.m3onSecondaryContainer : Colours.palette.m3onSurface
+                    onClicked: root.expanded = !root.expanded
                 }
 
                 MaterialIcon {
@@ -490,12 +484,9 @@ StyledRect {
         implicitHeight: actionText.height + Tokens.padding.small * 2
 
         StateLayer {
-            function onClicked(): void {
-                action.modelData.invoke();
-            }
-
             radius: Tokens.rounding.full
             color: root.modelData.urgency === NotificationUrgency.Critical ? Colours.palette.m3onSecondary : Colours.palette.m3onSurface
+            onClicked: action.modelData.invoke()
         }
 
         StyledText {
