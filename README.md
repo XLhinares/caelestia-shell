@@ -10,6 +10,44 @@
 
 </div>
 
+# Custom branch features
+
+- New shortcut dashboard tab
+- Better weather dashboard tab
+
+Notes:
+- When installing or updating the branch, it is sometimes necessary to rebuild the cpp files with:
+    ```bash
+    cmake -B build -G Ninja -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/  
+    cmake --build build  
+    sudo cmake --install build
+    ```
+- Shortcuts entries are defined in `shell.json` (without comments)
+    ```jsonc
+    {
+        "dashboard": {
+            "shortcuts": [
+                {
+                    "command": [
+                        ".scripts/caelestia-livepaper",
+                        "toggle"
+                    ],
+                    // "commandEnable": <cmd>
+                    // "commandDisable": <cmd>
+                    "isEnabled": [
+                        ".scripts/caelestia-livepaper",
+                        "is-enabled"
+                    ],
+                    // "showCommandOutputNotif": <true/false>
+                    "icon": "image",
+                    "name": "Toggle Livepaper"
+                }
+            ]
+        }    
+    }
+    ```
+# Regular README content
+
 https://github.com/user-attachments/assets/0840f496-575c-4ca6-83a8-87bb01a85c5f
 
 ## Components
