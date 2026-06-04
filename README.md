@@ -23,6 +23,12 @@ The new features are:
 
 ### Installing
 
+Make sure all the dependencies are installed:
+
+```bash
+yay -Syu caelestia-cli quickshell-git ddcutil brightnessctl app2unit libcava networkmanager lm-sensors fish aubio libpipewire glibc qt6-declarative gcc-libs material-symbols caskaydia-cove-nerd swappy libqalculate bash qt6-base qt6-declarative
+```
+
 The instruction are the same as the original shell (see below).  
 However, when installing or updating the branch, it is sometimes necessary to rebuild the cpp files.  
 This is done with:
