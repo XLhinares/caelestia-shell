@@ -14,7 +14,7 @@ RowLayout {
     Layout.leftMargin: Tokens.padding.large
     Layout.rightMargin: Tokens.padding.large
     Layout.fillWidth: true
-    spacing: Tokens.padding.normal
+    spacing: Tokens.padding.medium
 
     SessionButton {
         id: logout
@@ -33,14 +33,12 @@ RowLayout {
     }
 
     Item {
-        width: (Tokens.sizes.session.button - Tokens.padding.normal * .5) * .5
+        implicitWidth: (Tokens.sizes.session.button - Tokens.padding.medium * .5) * .5
     }
 
     AnimatedImage {
-        width: Tokens.sizes.session.button
-        height: Tokens.sizes.session.button
-        sourceSize.width: width
-        sourceSize.height: height
+        sourceSize.width: Tokens.sizes.session.button
+        sourceSize.height: Tokens.sizes.session.button
 
         playing: visible
         asynchronous: true
@@ -49,7 +47,7 @@ RowLayout {
     }
 
     Item {
-        width: (Tokens.sizes.session.button - Tokens.padding.normal * .5) * .5
+        implicitWidth: (Tokens.sizes.session.button - Tokens.padding.medium * .5) * .5
     }
 
     SessionButton {
@@ -98,8 +96,7 @@ RowLayout {
 
                 text: button.icon
                 color: button.activeFocus ? Colours.palette.m3onSecondaryContainer : Colours.palette.m3onSurface
-                font.pointSize: Tokens.font.size.extraLarge
-                font.weight: 500
+                font: Tokens.font.icon.builders.extraLarge.weight(500).build()
             }
         }
 

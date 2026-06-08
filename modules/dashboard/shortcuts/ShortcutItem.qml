@@ -107,7 +107,7 @@ ColumnLayout {
 
     width: Tokens.sizes.session.button
     implicitWidth: width
-    spacing: Tokens.spacing.normal
+    spacing: Tokens.spacing.medium
 
     StyledRect {
         implicitWidth: Tokens.sizes.session.button
@@ -131,15 +131,13 @@ ColumnLayout {
 
             text: button.icon
             color: button.activeFocus ? Colours.palette.m3onSecondaryContainer : Colours.palette.m3onSurface
-            font.pointSize: Tokens.font.size.extraLarge
-            font.weight: 500
+            font: Tokens.font.icon.builders.extraLarge.weight(500).build()
         }
     }
     StyledText {
         text: button.label
         Layout.alignment: Qt.AlignHCenter
         Layout.preferredWidth: parent.width // Prevents layout from growing
-        width: parent.width
         wrapMode: Text.WordWrap
         horizontalAlignment: Text.AlignHCenter
         maximumLineCount: 3

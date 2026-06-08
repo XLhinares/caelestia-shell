@@ -6,8 +6,8 @@ GridLayout {
     id: root
 
     columns: 6
-    columnSpacing: Tokens.spacing.normal
-    rowSpacing: Tokens.spacing.normal
+    columnSpacing: Tokens.spacing.medium
+    rowSpacing: Tokens.spacing.medium
     Layout.leftMargin: Tokens.padding.large
     Layout.rightMargin: Tokens.padding.large
     Layout.topMargin: Tokens.padding.large

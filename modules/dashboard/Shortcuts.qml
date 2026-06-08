@@ -17,8 +17,8 @@ ColumnLayout {
 
     StyledRect {
         Layout.fillWidth: true
-        Layout.topMargin: Tokens.spacing.normal
-        Layout.bottomMargin: Tokens.spacing.normal
+        Layout.topMargin: Tokens.spacing.medium
+        Layout.bottomMargin: Tokens.spacing.medium
         implicitHeight: 1
         color: Colours.tPalette.m3outlineVariant
     }
