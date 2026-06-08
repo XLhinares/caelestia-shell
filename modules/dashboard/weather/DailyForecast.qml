@@ -81,7 +81,7 @@ ColumnLayout {
                 StyledText {
                     Layout.alignment: Qt.AlignHCenter
                     text: `${dailyForecastItem.maxTemp}°`
-                    font.weight: 600
+                    font: Tokens.font.body.builders.small.weight(600).build()
                     color: Colours.palette.m3tertiary
                 }
 
