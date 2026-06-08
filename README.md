@@ -406,7 +406,7 @@ For example, to disable the bar on DP-1:
         "scale": 1
       }
     "general": {
-        "logo": "caelestia",
+        "logo": "",
         "showOverFullscreen": false,
         "mediaGifSpeedAdjustment": 300,
         "sessionGifSpeed": 0.7,
