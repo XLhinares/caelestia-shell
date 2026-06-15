@@ -23,7 +23,7 @@ StyledRect {
         id: layout
 
         anchors.centerIn: parent
-        spacing: Tokens.spacing.small
+        spacing: Tokens.spacing.extraSmall
 
         // edit: custom-clock
         StyledText {
