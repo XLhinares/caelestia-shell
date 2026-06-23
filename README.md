@@ -33,6 +33,13 @@ However, when installing or updating the branch, it is sometimes necessary to re
 This is done with:
 
 ```bash
+# CLONE
+cd ~/.config/quickshell/
+git clone https://github.com/XLhinares/caelestia-shell
+mv caelestia-shell caelestia
+
+# BUILD
+cd ~/.config/quickshell/caelestia
 cmake -B build -G Ninja -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/
 cmake --build build
 sudo cmake --install build
