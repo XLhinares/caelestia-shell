@@ -68,7 +68,6 @@ StyledRect {
             }
         }
 
-
         Loader {
             Layout.topMargin: -parent.spacing - 4
             Layout.alignment: Qt.AlignHCenter

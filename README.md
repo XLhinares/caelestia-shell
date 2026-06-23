@@ -367,11 +367,145 @@ For example, to disable the bar on DP-1:
           "italic": false,
           "vaxes": { "ROND": 25 }
         },
-        "small": {
-          "size": 24,
-          "weight": 500,
-          "italic": false,
-          "vaxes": { "ROND": 25 }
+        "padding": {
+          "scale": 1
+        },
+        "font": {
+          "scale": 1,
+          "clock": "Rubik",
+          "workspaces": "Rubik",
+          "headline": {
+            "family": "GoogleSansFlex",
+            "large": {
+              "size": 32,
+              "weight": 500,
+              "italic": false,
+              "vaxes": { "ROND": 25 }
+            },
+            "medium": {
+              "size": 28,
+              "weight": 500,
+              "italic": false,
+              "vaxes": { "ROND": 25 }
+            },
+            "small": {
+              "size": 24,
+              "weight": 500,
+              "italic": false,
+              "vaxes": { "ROND": 25 }
+            }
+          },
+          "title": {
+            "family": "GoogleSansFlex",
+            "large": {
+              "size": 22,
+              "weight": 500,
+              "italic": false,
+              "vaxes": { "ROND": 25 }
+            },
+            "medium": {
+              "size": 16,
+              "weight": 500,
+              "italic": false,
+              "vaxes": { "ROND": 25 }
+            },
+            "small": {
+              "size": 14,
+              "weight": 500,
+              "italic": false,
+              "vaxes": { "ROND": 25 }
+            }
+          },
+          "body": {
+            "family": "GoogleSansFlex",
+            "large": {
+              "size": 16,
+              "weight": 400,
+              "italic": false,
+              "vaxes": { "ROND": 25 }
+            },
+            "medium": {
+              "size": 14,
+              "weight": 400,
+              "italic": false,
+              "vaxes": { "ROND": 25 }
+            },
+            "small": {
+              "size": 12,
+              "weight": 400,
+              "italic": false,
+              "vaxes": { "ROND": 25 }
+            }
+          },
+          "label": {
+            "family": "GoogleSansFlex",
+            "large": {
+              "size": 14,
+              "weight": 500,
+              "italic": false,
+              "vaxes": { "ROND": 25 }
+            },
+            "medium": {
+              "size": 12,
+              "weight": 500,
+              "italic": false,
+              "vaxes": { "ROND": 25 }
+            },
+            "small": {
+              "size": 11,
+              "weight": 400,
+              "italic": false,
+              "vaxes": { "ROND": 25 }
+            }
+          },
+          "mono": {
+            "family": "CaskaydiaCove NF",
+            "large": {
+              "size": 16,
+              "weight": 400,
+              "italic": false,
+              "vaxes": {}
+            },
+            "medium": {
+              "size": 14,
+              "weight": 400,
+              "italic": false,
+              "vaxes": {}
+            },
+            "small": { "size": 12, "weight": 400, "italic": false, "vaxes": {} }
+          },
+          "icon": {
+            "family": "Material Symbols Rounded",
+            "extraLarge": {
+              "size": 36,
+              "weight": 400,
+              "italic": false,
+              "vaxes": {}
+            },
+            "large": {
+              "size": 24,
+              "weight": 400,
+              "italic": false,
+              "vaxes": {}
+            },
+            "medium": {
+              "size": 18,
+              "weight": 400,
+              "italic": false,
+              "vaxes": {}
+            },
+            "small": { "size": 15, "weight": 400, "italic": false, "vaxes": {} }
+          }
+        },
+        "anim": {
+          "durations": {
+            "scale": 1
+          }
+        },
+        "transparency": {
+          "enabled": false,
+          "base": 0.85,
+          "layers": 0.4
         }
       },
       "title": {
@@ -430,11 +564,121 @@ For example, to disable the bar on DP-1:
           "italic": false,
           "vaxes": { "ROND": 25 }
         },
-        "small": {
-          "size": 11,
-          "weight": 400,
-          "italic": false,
-          "vaxes": { "ROND": 25 }
+        "workspaces": {
+          "shown": 5,
+          "activeIndicator": true,
+          "occupiedBg": false,
+          "showWindows": true,
+          "showWindowsOnSpecialWorkspaces": true,
+          "maxWindowIcons": 5,
+          "activeTrail": false,
+          "perMonitorWorkspaces": true,
+          "label": "  ",
+          "occupiedLabel": "󰮯",
+          "activeLabel": "󰮯",
+          "capitalisation": "preserve",
+          "specialWorkspaceIcons": [
+            {
+              "name": "steam",
+              "icon": "sports_esports"
+            }
+          ],
+          "windowIcons": [
+            {
+              "regex": "steam(_app_(default|[0-9]+))?",
+              "icon": "sports_esports"
+            }
+          ]
+        },
+        "activeWindow": {
+          "compact": false,
+          "inverted": false,
+          "showOnHover": true
+        },
+        "tray": {
+          "background": false,
+          "recolour": false,
+          "compact": false,
+          "iconSubs": [],
+          "hiddenIcons": []
+        },
+        "status": {
+          "showAudio": false,
+          "showMicrophone": false,
+          "showKbLayout": false,
+          "showNetwork": true,
+          "showWifi": true,
+          "showBluetooth": true,
+          "showBattery": true,
+          "showLockStatus": true
+        },
+        "clock": {
+          "background": false,
+          "showDate": false,
+          "showIcon": true
+        },
+        "entries": [
+          {
+            "id": "logo",
+            "enabled": true
+          },
+          {
+            "id": "workspaces",
+            "enabled": true
+          },
+          {
+            "id": "spacer",
+            "enabled": true
+          },
+          {
+            "id": "activeWindow",
+            "enabled": true
+          },
+          {
+            "id": "spacer",
+            "enabled": true
+          },
+          {
+            "id": "tray",
+            "enabled": true
+          },
+          {
+            "id": "clock",
+            "enabled": true
+          },
+          {
+            "id": "statusIcons",
+            "enabled": true
+          },
+          {
+            "id": "power",
+            "enabled": true
+          }
+        ],
+        "excludedScreens": []
+      },
+      "border": {
+        "thickness": 10,
+        "rounding": 25,
+        "smoothing": 20
+      },
+      "dashboard": {
+        "enabled": true,
+        "showOnHover": true,
+        "showDashboard": true,
+        "showMedia": true,
+        "showPerformance": true,
+        "showWeather": true,
+        "mediaUpdateInterval": 500,
+        "resourceUpdateInterval": 1000,
+        "dragThreshold": 50,
+        "performance": {
+          "showBattery": true,
+          "showGpu": true,
+          "showCpu": true,
+          "showMemory": true,
+          "showStorage": true,
+          "showNetwork": true
         }
       },
       "mono": {
