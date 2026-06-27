@@ -29,9 +29,7 @@ StyledRect {
         StyledText {
             id: text_date
             Layout.alignment: Qt.AlignHCenter
-            asynchronous: true
-            active: Config.bar.clock.showDate
-            visible: active
+            visible: Config.bar.clock.showDate
 
             text: Time.format("MM\ndd")
             font: root.font.width(100).letterSpacing(scale).family("mono").build()
