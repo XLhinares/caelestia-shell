@@ -147,26 +147,26 @@ For home-manager, you can also use the Caelestia's home manager module (explaine
 
 Dependencies:
 
--   [`caelestia-cli`](https://github.com/caelestia-dots/cli)
--   [`quickshell-git`](https://quickshell.outfoxxed.me) - this has to be the git version, not the latest tagged version
--   [`ddcutil`](https://github.com/rockowitz/ddcutil)
--   [`brightnessctl`](https://github.com/Hummer12007/brightnessctl)
--   [`libcava`](https://github.com/LukashonakV/cava)
--   [`networkmanager`](https://networkmanager.dev)
--   [`lm-sensors`](https://github.com/lm-sensors/lm-sensors)
--   [`fish`](https://github.com/fish-shell/fish-shell)
--   [`aubio`](https://github.com/aubio/aubio)
--   [`libpipewire`](https://pipewire.org)
--   `glibc`
--   `qt6-declarative`
--   `gcc-libs`
--   [`material-symbols`](https://fonts.google.com/icons)
--   [`caskaydia-cove-nerd`](https://www.nerdfonts.com/font-downloads)
--   [`swappy`](https://github.com/jtheoof/swappy)
--   [`libqalculate`](https://github.com/Qalculate/libqalculate)
--   [`bash`](https://www.gnu.org/software/bash)
--   `qt6-base`
--   `qt6-declarative`
+- [`caelestia-cli`](https://github.com/caelestia-dots/cli)
+- [`quickshell-git`](https://quickshell.outfoxxed.me) - this has to be the git version, not the latest tagged version
+- [`ddcutil`](https://github.com/rockowitz/ddcutil)
+- [`brightnessctl`](https://github.com/Hummer12007/brightnessctl)
+- [`libcava`](https://github.com/LukashonakV/cava)
+- [`networkmanager`](https://networkmanager.dev)
+- [`lm-sensors`](https://github.com/lm-sensors/lm-sensors)
+- [`fish`](https://github.com/fish-shell/fish-shell)
+- [`aubio`](https://github.com/aubio/aubio)
+- [`libpipewire`](https://pipewire.org)
+- `glibc`
+- `qt6-declarative`
+- `gcc-libs`
+- [`material-symbols`](https://fonts.google.com/icons)
+- [`caskaydia-cove-nerd`](https://www.nerdfonts.com/font-downloads)
+- [`swappy`](https://github.com/jtheoof/swappy)
+- [`libqalculate`](https://github.com/Qalculate/libqalculate)
+- [`bash`](https://www.gnu.org/software/bash)
+- `qt6-base`
+- `qt6-declarative`
 
 Build dependencies:
 
@@ -518,10 +518,14 @@ For example, to disable the bar on DP-1:
         "idle": {
             "lockBeforeSleep": true,
             "inhibitWhenAudio": true,
+            "inhibitWhenCharging": false,
             "timeouts": [
                 {
                     "timeout": 180,
-                    "idleAction": "lock"
+                    "idleAction": "lock",
+                    "inhibitWhenAudio": false,
+                    "inhibitWhenCharging": false,
+                    "respectInhibitors": true
                 },
                 {
                     "timeout": 300,
@@ -814,10 +818,15 @@ For example, to disable the bar on DP-1:
             }
         ]
     },
-    "anim": {
-      "durations": {
-        "scale": 1
-      }
+    "lock": {
+        "enabled": true,
+        "recolourLogo": true,
+        "enableFprint": true,
+        "maxFprintTries": 3,
+        "enableHowdy": true,
+        "maxHowdyTries": 3,
+        "triggerHowdyOnWake": true,
+        "hideNotifs": false
     },
     "nexus": {
         "wallpapersPerRow": 4,
