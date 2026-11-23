@@ -1,11 +1,11 @@
 pragma ComponentBehavior: Bound
 
-import "items"
 import QtQuick
 import Quickshell
 import Caelestia.Config
 import qs.components.controls
 import qs.services
+import qs.modules.launcher.items
 
 PathView {
     id: root
@@ -93,5 +93,16 @@ PathView {
             x: root.width
             relativeY: 0
         }
+    }
+
+    CustomMouseArea {
+        function onWheel(event: WheelEvent): void {
+            if (event.angleDelta.y > 0)
+                root.decrementCurrentIndex();
+            else if (event.angleDelta.y < 0)
+                root.incrementCurrentIndex();
+        }
+
+        anchors.fill: parent
     }
 }

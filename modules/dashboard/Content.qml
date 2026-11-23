@@ -3,9 +3,9 @@ pragma ComponentBehavior: Bound
 import QtQuick
 import QtQuick.Layouts
 import Quickshell
-import Quickshell.Widgets
 import Caelestia
 import Caelestia.Config
+import Caelestia.I18n
 import qs.components
 import qs.components.filedialog
 
@@ -20,25 +20,25 @@ Item {
             {
                 component: dashComponent,
                 iconName: "dashboard",
-                text: qsTr("Dashboard"),
+                text: Tr.tr("Dashboard"),
                 enabled: Config.dashboard.showDashboard
             },
             {
                 component: mediaComponent,
                 iconName: "queue_music",
-                text: qsTr("Media"),
+                text: Tr.tr("Media"),
                 enabled: Config.dashboard.showMedia
             },
             {
                 component: performanceComponent,
                 iconName: "speed",
-                text: qsTr("Performance"),
+                text: Tr.tr("Performance"),
                 enabled: Config.dashboard.showPerformance
             },
             {
                 component: weatherComponent,
                 iconName: "cloud",
-                text: qsTr("Weather"),
+                text: Tr.tr("Weather"),
                 enabled: Config.dashboard.showWeather
             },
             {
@@ -51,8 +51,8 @@ Item {
         return allTabs.filter(tab => tab.enabled);
     }
 
-    readonly property real nonAnimWidth: view.implicitWidth + viewWrapper.anchors.margins * 2
-    readonly property real nonAnimHeight: tabs.implicitHeight + tabs.anchors.topMargin + view.implicitHeight + viewWrapper.anchors.margins * 2
+    readonly property real nonAnimWidth: dashboardTabs.length > 0 ? view.implicitWidth + viewWrapper.anchors.margins * 2 : 0
+    readonly property real nonAnimHeight: dashboardTabs.length > 0 ? tabs.implicitHeight + tabs.anchors.topMargin + view.implicitHeight + viewWrapper.anchors.margins * 2 : 0
 
     implicitWidth: nonAnimWidth
     implicitHeight: nonAnimHeight
@@ -71,7 +71,7 @@ Item {
         tabs: root.dashboardTabs
     }
 
-    ClippingRectangle {
+    ClipRect {
         id: viewWrapper
 
         anchors.top: tabs.bottom
@@ -86,9 +86,9 @@ Item {
         Flickable {
             id: view
 
-            readonly property int currentIndex: root.screenState.dashboardTab
+            readonly property int currentIndex: Math.min(root.screenState.dashboardTab, repeater.count - 1)
             readonly property Item currentItem: {
-                repeater.count; // Trigger update on count change
+                CUtils.dependency(repeater.count); // Trigger update on count change
                 return repeater.itemAt(currentIndex);
             }
 
@@ -135,6 +135,11 @@ Item {
 
                     model: ScriptModel {
                         values: root.dashboardTabs
+                    }
+
+                    onCountChanged: {
+                        if (root.screenState.dashboardTab >= count)
+                            root.screenState.dashboardTab = Math.max(0, count - 1);
                     }
 
                     delegate: Loader {

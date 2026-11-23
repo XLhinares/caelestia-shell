@@ -2,8 +2,10 @@ pragma Singleton
 
 import QtQuick
 import Quickshell
+import Quickshell.Io
 import Caelestia
 import Caelestia.Config
+import Caelestia.I18n
 import qs.utils
 
 Singleton {
@@ -15,23 +17,27 @@ Singleton {
     property list<var> forecast
     property list<var> hourlyForecast
 
-    readonly property string tempUnit: GlobalConfig.services.useFahrenheit ? "F" : "C"
+    readonly property string tempUnit: GlobalConfig.services.weatherUnits == "Celsius" ? "F" : "C"
     property bool ipApiRequestPending: false
     property double ipApiBlockedUntil: 0
+    property bool citiesLoaded: false
+    property string pendingCoords
 
     readonly property string icon: cc ? Icons.getWeatherIcon(cc.weatherCode) : "cloud_alert"
-    readonly property string description: cc?.weatherDesc ?? qsTr("No weather")
+    readonly property string description: cc ? getWeatherCondition(cc.weatherCode) : Tr.tr("No weather")
     readonly property string temp: formatTemp(cc?.tempC)
     readonly property string feelsLike: formatTemp(cc?.feelsLikeC)
     readonly property int humidity: cc?.humidity ?? 0
     readonly property real windSpeed: cc?.windSpeed ?? 0
-    readonly property string sunrise: cc ? Qt.formatDateTime(new Date(cc.sunrise), GlobalConfig.services.useTwelveHourClock ? "h:mm A" : "h:mm") : "--:--"
-    readonly property string sunset: cc ? Qt.formatDateTime(new Date(cc.sunset), GlobalConfig.services.useTwelveHourClock ? "h:mm A" : "h:mm") : "--:--"
+    readonly property string sunrise: cc ? Tr.formatDateTime(new Date(cc.sunrise), Units.twelveHourClock ? "h:mm A" : "h:mm") : "--:--"
+    readonly property string sunset: cc ? Tr.formatDateTime(new Date(cc.sunset), Units.twelveHourClock ? "h:mm A" : "h:mm") : "--:--"
 
     readonly property var cachedCities: new Map()
 
-    function formatTemp(temp: var): string {
-        return GlobalConfig.services.useFahrenheit ? `${temp !== undefined ? Math.round(toFahrenheit(temp)) : "--"}°F` : `${temp !== undefined ? Math.round(temp) : "--"}°C`;
+    function formatTemp(temp: var, compact = false): string {
+        const unit = GlobalConfig.services.weatherUnits;
+        const value = temp !== undefined ? Math.round(Units.toTemperature(temp, unit)) : "--";
+        return Units.formatTemp(value, unit, compact);
     }
 
     function reload(): void {
@@ -153,46 +159,60 @@ Singleton {
         return mapping[cityName] || cityName;
     }
 
+    function cacheCity(coords: string, cityName: string): void {
+        cachedCities.set(coords, cityName);
+        citiesSaveTimer.restart();
+    }
+
     function fetchCityFromCoords(coords: string): void {
         if (cachedCities.has(coords)) {
             city = cachedCities.get(coords);
             return;
         }
 
-        const [lat, lon] = coords.split(",").map(s => s.trim());
-        const lang = Qt.locale().name.split("_")[0] || "en";
+        // Defer until cache is loaded
+        if (!citiesLoaded) {
+            pendingCoords = coords;
+            return;
+        }
 
-        const fallbackToBigDataCloud = () => {
-            const fallbackUrl = `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${lat}&longitude=${lon}&localityLanguage=${lang}`;
-            Requests.get(fallbackUrl, text => {
-                const geo = JSON.parse(text);
-                const geoCity = geo.city || geo.locality;
-                if (geoCity) {
-                    city = fixCityName(geoCity);
-                    cachedCities.set(coords, city);
-                } else {
-                    city = "Unknown City";
-                }
-            });
-        };
+        const [lat, lon] = coords.split(",").map(s => s.trim());
+        const lang = Tr.locale.name.split("_")[0] || "en";
 
         const nominatimUrl = `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lon}&format=geocodejson&accept-language=${lang}`;
+        const nominatimHeaders = {
+            "User-Agent": `caelestia-shell/${CUtils.version} (+https://github.com/caelestia-dots/shell)`
+        };
+
         Requests.get(nominatimUrl, text => {
-            const geo = JSON.parse(text).features?.[0]?.properties.geocoding;
+            let geo;
+            try {
+                geo = JSON.parse(text).features?.[0]?.properties.geocoding;
+            } catch (error) {
+                console.warn(lc, `Unable to parse response from nominatim: ${error}`);
+                city = Tr.trCtx("Unknown city", "weather location unavailable");
+                return;
+            }
+
             if (geo) {
                 const geoCity = geo.type === "city" ? geo.name : geo.city;
                 if (geoCity) {
                     city = fixCityName(geoCity);
-                    cachedCities.set(coords, city);
+                    cacheCity(coords, city);
                     return;
                 }
             }
-            fallbackToBigDataCloud();
-        }, fallbackToBigDataCloud);
+
+            console.warn(lc, "No locality in nominatim response");
+            city = Tr.trCtx("Unknown city", "weather location unavailable");
+        }, error => {
+            console.warn(lc, `Nominatim request failed: ${error}`);
+            city = Tr.trCtx("Unknown city", "weather location unavailable");
+        }, nominatimHeaders);
     }
 
     function fetchCoordsFromCity(cityName: string): void {
-        const lang = Qt.locale().name.split("_")[0] || "en";
+        const lang = Tr.locale.name.split("_")[0] || "en";
         const url = `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(cityName)}&count=1&language=${lang}&format=json`;
 
         Requests.get(url, text => {
@@ -209,70 +229,56 @@ Singleton {
     }
 
     function fetchWeatherData(): void {
-        const url = getWeatherUrl();
-        if (url === "")
-            return;
-
-        Requests.get(url, text => {
-            const json = JSON.parse(text);
-            if (!json.current || !json.daily)
+            const url = getWeatherUrl();
+            if (url === "")
                 return;
 
-            cc = {
-                weatherCode: json.current.weather_code,
-                weatherDesc: getWeatherCondition(json.current.weather_code),
-                tempC: json.current.temperature_2m,
-                feelsLikeC: json.current.apparent_temperature,
-                humidity: json.current.relative_humidity_2m,
-                windSpeed: json.current.wind_speed_10m,
-                isDay: json.current.is_day,
-                sunrise: json.daily.sunrise[0].replace("T", " "),
-                sunset: json.daily.sunset[0].replace("T", " ")
-            };
+            Requests.get(url, text => {
+                const json = JSON.parse(text);
+                if (!json.current || !json.daily)
+                    return;
 
-            const forecastList = [];
-            for (let i = 0; i < json.daily.time.length; i++) {
-                const maxTempC = Math.round(json.daily.temperature_2m_max[i]);
-                const maxTempF = Math.round(toFahrenheit(json.daily.temperature_2m_max[i]));
-                const minTempC = Math.round(json.daily.temperature_2m_min[i]);
-                const minTempF = Math.round(toFahrenheit(json.daily.temperature_2m_min[i]));
+                cc = {
+                    weatherCode: json.current.weather_code,
+                    tempC: json.current.temperature_2m,
+                    feelsLikeC: json.current.apparent_temperature,
+                    humidity: json.current.relative_humidity_2m,
+                    windSpeed: json.current.wind_speed_10m,
+                    isDay: json.current.is_day,
+                    sunrise: json.daily.sunrise[0].replace("T", " "),
+                    sunset: json.daily.sunset[0].replace("T", " ")
+                };
 
-                forecastList.push({
-                    date: json.daily.time[i].replace(/-/g, "/"),
-                    maxTemp: GlobalConfig.services.useFahrenheit ? maxTempF : maxTempC,
-                    minTemp: GlobalConfig.services.useFahrenheit ? minTempF : minTempC,
-                    weatherCode: json.daily.weather_code[i],
-                    icon: Icons.getWeatherIcon(json.daily.weather_code[i])
-                });
+                const forecastList = [];
+                for (let i = 0; i < json.daily.time.length; i++)
+                    forecastList.push({
+                        date: json.daily.time[i].replace(/-/g, "/"),
+                        maxTempC: json.daily.temperature_2m_max[i],
+                        minTempC: json.daily.temperature_2m_min[i],
+                        weatherCode: json.daily.weather_code[i],
+                        icon: Icons.getWeatherIcon(json.daily.weather_code[i])
+                    });
                 forecast = forecastList;
-            }
 
-            const hourlyList = [];
-            const now = new Date();
-            for (let i = 0; i < json.hourly.time.length; i++) {
-                const time = new Date(json.hourly.time[i].replace("T", " "));
+                const hourlyList = [];
+                const now = new Date();
+                for (let i = 0; i < json.hourly.time.length; i++) {
+                    const time = new Date(json.hourly.time[i].replace("T", " "));
 
-                if (time < now)
-                    continue;
+                    if (time < now)
+                        continue;
 
-                const tempC = Math.round(json.hourly.temperature_2m[i]);
-                const tempF = Math.round(toFahrenheit(json.hourly.temperature_2m[i]));
-
-                hourlyList.push({
-                    timestamp: json.hourly.time[i],
-                    hour: time.getHours(),
-                    temp: GlobalConfig.services.useFahrenheit ? tempF : tempC,
-                    weatherCode: json.hourly.weather_code[i],
-                    icon: Icons.getWeatherIcon(json.hourly.weather_code[i]),
-                    precipitationProbability: json.hourly.precipitation_probability[i]
-                });
-            }
-            hourlyForecast = hourlyList;
-        });
-    }
-
-    function toFahrenheit(celcius: real): real {
-        return celcius * 9 / 5 + 32;
+                    hourlyList.push({
+                        timestamp: json.hourly.time[i],
+                        hour: time.getHours(),
+                        tempC: Math.round(json.hourly.temperature_2m[i]),
+                        precipChance: json.hourly.precipitation_probability[i],
+                        weatherCode: json.hourly.weather_code[i],
+                        icon: Icons.getWeatherIcon(json.hourly.weather_code[i])
+                    });
+                }
+                hourlyForecast = hourlyList;
+            });
     }
 
     function getWeatherUrl(): string {
@@ -288,39 +294,47 @@ Singleton {
 
     function getWeatherCondition(code: string): string {
         const conditions = {
-            "0": "Clear",
-            "1": "Clear",
-            "2": "Partly cloudy",
-            "3": "Overcast",
-            "45": "Fog",
-            "48": "Fog",
-            "51": "Drizzle",
-            "53": "Drizzle",
-            "55": "Drizzle",
-            "56": "Freezing drizzle",
-            "57": "Freezing drizzle",
-            "61": "Light rain",
-            "63": "Rain",
-            "65": "Heavy rain",
-            "66": "Light rain",
-            "67": "Heavy rain",
-            "71": "Light snow",
-            "73": "Snow",
-            "75": "Heavy snow",
-            "77": "Snow",
-            "80": "Light rain",
-            "81": "Rain",
-            "82": "Heavy rain",
-            "85": "Light snow showers",
-            "86": "Heavy snow showers",
-            "95": "Thunderstorm",
-            "96": "Thunderstorm with hail",
-            "99": "Thunderstorm with hail"
+            "0": Tr.tr("Clear"),
+            "1": Tr.tr("Clear"),
+            "2": Tr.tr("Partly cloudy"),
+            "3": Tr.tr("Overcast"),
+            "45": Tr.tr("Fog"),
+            "48": Tr.tr("Fog"),
+            "51": Tr.tr("Drizzle"),
+            "53": Tr.tr("Drizzle"),
+            "55": Tr.tr("Drizzle"),
+            "56": Tr.tr("Freezing drizzle"),
+            "57": Tr.tr("Freezing drizzle"),
+            "61": Tr.tr("Light rain"),
+            "63": Tr.tr("Rain"),
+            "65": Tr.tr("Heavy rain"),
+            "66": Tr.tr("Light rain"),
+            "67": Tr.tr("Heavy rain"),
+            "71": Tr.tr("Light snow"),
+            "73": Tr.tr("Snow"),
+            "75": Tr.tr("Heavy snow"),
+            "77": Tr.tr("Snow"),
+            "80": Tr.tr("Light rain"),
+            "81": Tr.tr("Rain"),
+            "82": Tr.tr("Heavy rain"),
+            "85": Tr.tr("Light snow showers"),
+            "86": Tr.tr("Heavy snow showers"),
+            "95": Tr.tr("Thunderstorm"),
+            "96": Tr.tr("Thunderstorm with hail"),
+            "99": Tr.tr("Thunderstorm with hail")
         };
-        return conditions[code] || "Unknown";
+        return conditions[code] || Tr.trCtx("Unknown", "weather condition");
     }
 
     onLocChanged: fetchWeatherData()
+    onCitiesLoadedChanged: {
+        if (!citiesLoaded || !pendingCoords)
+            return;
+
+        const coords = pendingCoords;
+        pendingCoords = "";
+        fetchCityFromCoords(coords);
+    }
 
     Connections {
         function onWeatherLocationChanged(): void {
@@ -354,8 +368,48 @@ Singleton {
         }
     }
 
+    Timer {
+        id: citiesSaveTimer
+
+        interval: 1000
+        onTriggered: {
+            if (!root.citiesLoaded)
+                return;
+
+            const data = {};
+            root.cachedCities.forEach((cityName, coords) => data[coords] = cityName);
+            citiesStorage.setText(JSON.stringify(data));
+        }
+    }
+
     ElapsedTimer {
         id: timer
+    }
+
+    FileView {
+        id: citiesStorage
+
+        printErrors: false
+        path: `${Paths.cache}/cities.json`
+        onLoaded: {
+            try {
+                const data = JSON.parse(text());
+                for (const [coords, cityName] of Object.entries(data))
+                    if (!root.cachedCities.has(coords))
+                        root.cachedCities.set(coords, cityName);
+            } catch (error) {
+                console.warn(lc, `Unable to parse cached cities: ${error}`);
+            }
+
+            root.citiesLoaded = true;
+        }
+        onLoadFailed: err => {
+            root.citiesLoaded = true;
+            if (err === FileViewError.FileNotFound)
+                Qt.callLater(() => setText("{}"));
+            else
+                console.warn(lc, `Unable to load cached cities: ${err}`);
+        }
     }
 
     LoggingCategory {

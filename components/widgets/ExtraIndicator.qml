@@ -1,7 +1,7 @@
-import "../effects"
 import QtQuick
 import Caelestia.Config
 import qs.components
+import qs.components.effects
 import qs.services
 
 StyledRect {
@@ -32,7 +32,7 @@ StyledRect {
 
         anchors.centerIn: parent
         animate: parent.opacity > 0
-        text: qsTr("+%1").arg(parent.extra)
+        text: `+${parent.extra}`
         color: Colours.palette.m3onTertiary
     }
 

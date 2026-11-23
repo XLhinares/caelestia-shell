@@ -37,8 +37,8 @@ ColumnLayout {
 
         property var date: modelData?.date
         property var icon: modelData?.icon ?? "cloud_alert"
-        property var maxTemp: modelData?.maxTemp ?? 0
-        property var minTemp: modelData?.minTemp ?? 0
+        property var maxTemp: Weather.formatTemp(modelData.maxTempC, true);
+        property var minTemp: Weather.formatTemp(modelData.minTempC, true);
 
         Layout.fillWidth: true
         implicitHeight: forecastItemColumn.implicitHeight + Tokens.padding.medium * 2
@@ -80,14 +80,14 @@ ColumnLayout {
 
                 StyledText {
                     Layout.alignment: Qt.AlignHCenter
-                    text: `${dailyForecastItem.maxTemp}°`
+                    text: `${dailyForecastItem.maxTemp}`
                     font: Tokens.font.body.builders.small.weight(600).build()
                     color: Colours.palette.m3tertiary
                 }
 
                 StyledText {
                     Layout.alignment: Qt.AlignHCenter
-                    text: `(${dailyForecastItem.minTemp}°)`
+                    text: `(${dailyForecastItem.minTemp})`
                     font: Tokens.font.body.small
                     opacity: 0.7
                     color: Colours.palette.m3onSurfaceVariant

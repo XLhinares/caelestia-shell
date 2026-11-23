@@ -25,8 +25,8 @@ ListView {
         property var timestamp: modelData?.timestamp
         property var hour: modelData?.hour ?? 0
         property var icon: modelData?.icon ?? "cloud_alert"
-        property var temp: modelData?.temp ?? 0
-        property var precipitationProbability: modelData?.precipitationProbability ?? "?"
+        property var tempC: modelData?.tempC ?? 0
+        property var precipChance: modelData?.precipChance ?? "?"
 
         implicitHeight: hourlyForecastItemRow.implicitHeight + Tokens.padding.medium * 2
         implicitWidth: hourlyForecastItemRow.implicitWidth + Tokens.padding.medium * 2
@@ -72,7 +72,7 @@ ListView {
 
                 StyledText {
                     anchors.right: parent.right
-                    text: `${hourlyForecastItem.temp}°${Weather.tempUnit}`
+                    text: Weather.formatTemp(hourlyForecastItem.tempC, true);
                     font: Tokens.font.body.builders.small.weight(600).build()
                     color: Colours.palette.m3tertiary
                 }
@@ -80,7 +80,7 @@ ListView {
                 StyledText {
                     anchors.right: parent.right
                     Layout.alignment: Qt.AlignHCenter
-                    text: `${hourlyForecastItem.precipitationProbability}%`
+                    text: `${hourlyForecastItem.precipChance}%`
                     font: Tokens.font.body.builders.small.weight(600).build()
                     color: Colours.palette.m3tertiary
                 }
